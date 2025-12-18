@@ -8,33 +8,26 @@ const app = express();
 app.use(express.json());
 
 const APIFY_TOKEN = process.env.APIFY_API_TOKEN;
-const ACTOR_ID = process.env.APIFY_ACTOR_ID;
+const ACTOR_ID = "apify/instagram-comments-scraper";
 
-// ================================
-// PRESET GLOBAL HASHTAGS
-// ================================
-const PRESET_HASHTAGS = [
+// ===============================
+// PRESET HASHTAGS (OPTION A)
+// ===============================
+const HASHTAGS = [
   "weightloss",
   "fatloss",
   "bellyfat",
   "loseweight",
-  "weightlossjourney",
   "diet",
   "fitness",
-  "healthylifestyle",
-  "transformation",
   "weightgain",
-  "gainweight",
   "skinny",
-  "skinnyfat",
-  "bulking",
-  "musclebuilding",
-  "fitnessjourney"
+  "musclebuilding"
 ];
 
-// ================================
-// FILTER KEYWORDS (INTENT)
-// ================================
+// ===============================
+// INTENT KEYWORDS
+// ===============================
 const INTENT_KEYWORDS = [
   "weight loss",
   "lose weight",
@@ -45,13 +38,12 @@ const INTENT_KEYWORDS = [
   "how",
   "weight gain",
   "skinny",
-  "muscle",
-  "fitness"
+  "muscle"
 ];
 
-// ================================
+// ===============================
 // INDIA SIGNAL WORDS
-// ================================
+// ===============================
 const INDIA_SIGNALS = [
   "mujhe",
   "kaise",
@@ -67,29 +59,28 @@ const INDIA_SIGNALS = [
   "desi"
 ];
 
-// ================================
+// ===============================
 // HEALTH CHECK
-// ================================
+// ===============================
 app.get("/", (req, res) => {
   res.send("Backend is running 👍");
 });
 
-// ================================
+// ===============================
 // GENERATE LEADS (NO INPUT)
-// ================================
+// ===============================
 app.post("/generate-leads", async (req, res) => {
   try {
     let allComments = [];
 
-    // Use only first 6 hashtags (safe demo)
-    const tagsToUse = PRESET_HASHTAGS.slice(0, 6);
+    // Use only first 4 hashtags (demo-safe)
+    const tagsToUse = HASHTAGS.slice(0, 4);
 
     for (const tag of tagsToUse) {
       const runResponse = await axios.post(
         `https://api.apify.com/v2/acts/${ACTOR_ID}/runs?token=${APIFY_TOKEN}`,
         {
-          search: `#${tag}`,
-          resultsType: "comments",
+          hashtags: [tag],
           resultsLimit: 50
         }
       );
@@ -119,9 +110,9 @@ app.post("/generate-leads", async (req, res) => {
       }
     }
 
-    // ================================
-    // FILTER INDIAN FITNESS LEADS
-    // ================================
+    // ===============================
+    // FILTER LEADS (INTENT + INDIA)
+    // ===============================
     const leads = allComments.filter(item => {
       const text = item.text?.toLowerCase() || "";
 
@@ -131,9 +122,9 @@ app.post("/generate-leads", async (req, res) => {
       return intentMatch && indiaMatch;
     });
 
-    // ================================
-    // FORMAT RESPONSE
-    // ================================
+    // ===============================
+    // FORMAT OUTPUT
+    // ===============================
     const formattedLeads = leads.map(item => ({
       username: item.ownerUsername,
       comment: item.text,
@@ -155,9 +146,9 @@ app.post("/generate-leads", async (req, res) => {
   }
 });
 
-// ================================
+// ===============================
 // START SERVER
-// ================================
+// ===============================
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server started");
 });
