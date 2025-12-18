@@ -61,7 +61,6 @@ app.post("/generate-leads", async (req, res) => {
       "diet",
       "gym",
       "fitness"
-      "fit"
     ];
 
     let leads = dataRes.data.filter(item =>
