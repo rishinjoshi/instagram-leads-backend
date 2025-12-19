@@ -165,6 +165,17 @@ app.post("/generate-leads", async (req, res) => {
 });
 
 // ===============================
+// TEST: View curated profiles
+// ===============================
+app.get("/admin/test-profiles", (req, res) => {
+  res.json({
+    success: true,
+    totalProfiles: getCuratedProfiles().length,
+    profiles: getCuratedProfiles()
+  });
+});
+
+// ===============================
 // START SERVER
 // ===============================
 app.listen(process.env.PORT || 3000, () => {
