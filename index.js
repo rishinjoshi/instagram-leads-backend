@@ -11,18 +11,29 @@ const APIFY_TOKEN = process.env.APIFY_API_TOKEN;
 const ACTOR_ID = "apify/instagram-comments-scraper";
 
 // ===============================
-// PRESET HASHTAGS (OPTION A)
+// CURATED FITNESS PROFILES (MVP)
 // ===============================
-const HASHTAGS = [
-  "weightloss",
-  "fatloss",
-  "bellyfat",
-  "loseweight",
-  "diet",
-  "fitness",
-  "weightgain",
-  "skinny",
-  "musclebuilding"
+const CURATED_PROFILES = [
+  "niteshsoniy",
+  "saketgokhale",
+  "fitgirl_08",
+  "unfitofit_official_",
+  "fitnesswithabc",
+  "homeworkoutindia",
+  "indianweightlosscoach",
+  "fitlife_hindi",
+  "healthynation_india",
+  "gymmotivation_india",
+  "yoga_with_india",
+  "dietcoach_india",
+  "weightlossjourney_india",
+  "musclebuild_india",
+  "fatlosscoach_india",
+  "fitness_transform_india",
+  "homefitness_india",
+  "nutritioncoach_india",
+  "workoutathome_india",
+  "healthyhabits_india"
 ];
 
 // ===============================
