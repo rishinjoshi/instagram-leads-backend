@@ -37,6 +37,13 @@ const CURATED_PROFILES = [
 ];
 
 // ===============================
+// HELPER: Get curated profiles
+// ===============================
+function getCuratedProfiles() {
+  return CURATED_PROFILES;
+}
+
+// ===============================
 // INTENT KEYWORDS
 // ===============================
 const INTENT_KEYWORDS = [
